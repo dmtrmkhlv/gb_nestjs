@@ -4,8 +4,15 @@ import { News } from '../dto/news.dto';
 const allNews: News[] = [
   {
     id: 1,
-    title: 'title',
-    description: 'description',
+    title: '«Биткоин будет стоить $2 млн»: новый прогноз',
+    description: 'Эксперт настроен очень оптимистично. По его словам, в течение шести лет цифровая валюта увеличится в цене в 100 раз.',
+    author: 'Pushkin',
+    createdAt: new Date(Date.now()),
+  },
+  {
+    id: 2,
+    title: 'Ноутбук для жизни и работы. Какой он',
+    description: 'Так что без лишних слов и лирических отступлений на технические характеристики расскажем об эмоциях от использования',
     author: 'Pushkin',
     createdAt: new Date(Date.now()),
   },
