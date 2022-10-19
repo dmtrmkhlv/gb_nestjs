@@ -20,7 +20,7 @@ export class NewsService {
         ...data[0],
       };
       allNews[data.id - 1] = newData;
-      console.log(news, newData);
+
       return allNews[data.id - 1];
     }
   }
