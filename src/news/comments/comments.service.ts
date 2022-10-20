@@ -1,20 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { Comment } from 'src/dto/comment.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CommentsService {
-  private readonly comments = {};
+  private readonly comments = {
+    1: [
+      {
+        id: 1,
+        text: 'text',
+      },
+      {
+        id: 2,
+        text: 'text second',
+      },
+    ],
+  };
   async create(idNews: string, comment: string): Promise<number> {
     if (!this.comments?.[idNews]) {
       this.comments[idNews] = [];
     }
     return this.comments[idNews].push({
-      comment,
+      text: comment,
       id: uuidv4(),
     });
   }
-  async findAll(idNews: string): Promise<{ comment; id } | undefined> {
+  async findAll(idNews: string): Promise<Comment[] | undefined> {
     return this.comments?.[idNews];
+  }
+  async updateComments(
+    idNews: string,
+    comment: Comment,
+  ): Promise<{} | boolean> {
+    const index = this.comments?.[idNews].findIndex(
+      (x: Comment) => x.id == comment.id,
+    );
+
+    if (index !== -1) {
+      this.comments[idNews][index].text = comment.text;
+      return this.comments?.[idNews];
+    }
+    return false;
   }
   async remove(idNews: string, idComment: string): Promise<boolean> {
     const index = this.comments?.[idNews].findIndex((x) => x.id === idComment);

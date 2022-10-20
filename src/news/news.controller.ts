@@ -31,7 +31,7 @@ export class NewsController {
   @Get('/:id')
   async findNews(
     @OneNews() news: News,
-    @Param('id') id: number,
+    @Param('id') id: string,
   ): Promise<News | undefined> {
     return this.newsService.findNews(id);
   }
@@ -47,5 +47,12 @@ export class NewsController {
   async getViewAll(): Promise<string> {
     const news = await this.newsService.getAllNews();
     return htmlTemplate(newsTemplate(news));
+  }
+
+  @Get('/:id/detail')
+  async getViewOne(@Param('id') id: string): Promise<string> {
+    const oneNews = await this.newsService.getOneNews(id);
+    const oneNewsComments = await this.commentService.findAll(id);
+    return htmlTemplate(newsTemplate([oneNews], oneNewsComments));
   }
 }
