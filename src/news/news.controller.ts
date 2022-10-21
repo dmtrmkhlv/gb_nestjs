@@ -5,6 +5,8 @@ import { newsTemplate } from 'src/views/newsTemplate';
 import { htmlTemplate } from 'src/views/template';
 import { NewsService } from './news.service';
 import { CommentsService } from './comments/comments.service';
+import { NewsIdDto } from './dtos/news-id.dto';
+import { NewsCreateDto } from './dtos/news-create.dto';
 
 @Controller('news')
 export class NewsController {
@@ -18,10 +20,10 @@ export class NewsController {
     return this.newsService.updateNews(data);
   }
 
-  // @Get()
-  // async findOne(@OneNews('title') title: string): Promise<void> {
-  //   console.log(`Hello ${title}`);
-  // }
+  @Post()
+  async create(@Body() news: NewsCreateDto): Promise<number> {
+    return this.newsService.create(news);
+  }
 
   @Get('all')
   async getAllNews(): Promise<News[]> {
@@ -31,15 +33,16 @@ export class NewsController {
   @Get('/:id')
   async findNews(
     @OneNews() news: News,
-    @Param('id') id: string,
+    @Param() params: NewsIdDto,
   ): Promise<News | undefined> {
-    return this.newsService.findNews(id);
+    return this.newsService.findNews(params.id);
   }
 
   @Delete(':id')
-  async remove(@Param('id') idNews): Promise<boolean> {
+  async remove(@Param() params: NewsIdDto): Promise<boolean> {
     return (
-      this.newsService.remove(idNews) && this.commentService.removeAll(idNews)
+      this.newsService.remove(params.id) &&
+      this.commentService.removeAll(params.id)
     );
   }
 

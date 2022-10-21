@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { News } from '../dto/news.dto';
+import { NewsCreateDto } from './dtos/news-create.dto';
 
 const allNews: News[] = [
   {
@@ -34,6 +35,10 @@ export class NewsService {
 
       return allNews[data.id];
     }
+  }
+
+  async create(news: NewsCreateDto): Promise<number> {
+    return allNews.push(news);
   }
 
   async findNews(id: string): Promise<News | undefined> {
