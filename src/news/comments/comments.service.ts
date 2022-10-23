@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Comment } from 'src/dto/comment.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentCreateDto } from './dtos/comment-create.dto';
+import { CommentUpdateDto } from './dtos/comment-update.dto';
 
 @Injectable()
 export class CommentsService {
@@ -16,16 +18,21 @@ export class CommentsService {
       },
     ],
   };
-  async create(idNews: string, comment: string): Promise<number> {
+  async create(idNews: string, comment: CommentCreateDto): Promise<number> {
     if (!this.comments?.[idNews]) {
       this.comments[idNews] = [];
     }
+    // return this.comments[idNews].push({
+    //   text: comment.text,
+    //   id: uuidv4(),
+    // });
     return this.comments[idNews].push({
-      text: comment,
+      text: comment.text,
+      cover: comment.cover,
       id: uuidv4(),
     });
   }
-  async findAll(idNews: string): Promise<Comment[] | undefined> {
+  async findAll(idNews: string): Promise<CommentCreateDto[] | undefined> {
     return this.comments?.[idNews];
   }
   async updateComments(

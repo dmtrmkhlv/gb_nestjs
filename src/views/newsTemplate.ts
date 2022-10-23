@@ -1,7 +1,8 @@
 import { Comment } from 'src/dto/comment.dto';
 import { News } from 'src/dto/news.dto';
+import { CommentCreateDto } from 'src/news/comments/dtos/comment-create.dto';
 
-export const newsTemplate = (news: News[], comments?: Comment[]) => {
+export const newsTemplate = (news: News[], comments?: CommentCreateDto[]) => {
   if (news?.length === 0) {
     return emptyNews();
   }
@@ -10,12 +11,20 @@ export const newsTemplate = (news: News[], comments?: Comment[]) => {
   for (const newsItem of news) {
     let commentHTML = '<div>';
     comments?.forEach((commentItem) => {
-      commentHTML += `<sup>№${commentItem.id}</sup><p class="card-text">${commentItem.text}</p>`;
+      commentHTML += `<sup>№${commentItem.id}</sup>
+      <div style=" display: flex; ">
+      <img src='http://localhost:3000/${commentItem?.cover}' class="card-img-top"
+                style="height: 20px; width: 20px;" alt=''>
+                <p class="card-text">${commentItem.text}</p>
+      </div>
+      `;
     });
     commentHTML += '</div>';
     html += `
     <div class="col-lg-6">
         <div class="card">
+        <img src='http://localhost:3000/${newsItem?.cover}' class="card-img-top"
+                style="height: 200px; object-fit: cover;" alt=''>
             <div class="card-body">
                 <h5 class="card-title">${newsItem.title}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">

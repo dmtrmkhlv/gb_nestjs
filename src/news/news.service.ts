@@ -55,9 +55,9 @@ export class NewsService {
   }
 
   async remove(idNews: string): Promise<boolean> {
-    const index = News?.[idNews].findIndex((x) => x.id === idNews);
+    const index = allNews?.[idNews].findIndex((x) => x.id === idNews);
     if (index !== -1) {
-      News[idNews].splice(index, 1);
+      allNews[idNews].splice(index, 1);
       return true;
     }
     return false;

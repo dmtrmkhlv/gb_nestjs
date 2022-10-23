@@ -4,6 +4,7 @@ import {
   ValidateIf,
   IsDateString,
 } from 'class-validator';
+import { Comment } from 'src/dto/comment.dto';
 export class NewsCreateDto {
   @IsNotEmpty()
   @IsString()
@@ -23,7 +24,11 @@ export class NewsCreateDto {
 
   @IsNotEmpty()
   @IsDateString()
-  createdAt: string;
+  createdAt: Date;
 
-  comments: [];
+  comments: Comment[];
+
+  @ValidateIf((o) => o.cover)
+  @IsString()
+  cover: string;
 }
