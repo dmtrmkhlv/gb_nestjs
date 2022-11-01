@@ -39,8 +39,9 @@ export class NewsService {
     }
   }
 
-  async create(news: NewsCreateDto): Promise<number> {
-    return allNews.push(news);
+  async create(news: NewsCreateDto): Promise<News | undefined> {
+    await allNews.push(news);
+    return news;
   }
 
   async findNews(id: string): Promise<News | undefined> {
