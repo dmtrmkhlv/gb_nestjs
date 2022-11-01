@@ -1,0 +1,19 @@
+{{#if news}}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <img src='http://localhost:3000{{news.cover}}' class="card-img-top"
+                style="height: 200px; object-fit: cover;" alt=''>
+            <div class="card-body">
+                <h5 class="card-title">{{news.title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Автор: {{news.author}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Дата создания:
+                    {{news.createdAt}}</h6>
+                <p class="card-text">{{news.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<h1>Такой новости нет</h1>
+{{/if}}
