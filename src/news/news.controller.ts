@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UploadedFile,
+  Render,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -55,6 +56,7 @@ export class NewsController {
   }
 
   @Get('/:id')
+  @Render('news')
   async findNews(@Param() params: NewsIdDto): Promise<News | undefined> {
     return this.newsService.findNews(params.id);
   }

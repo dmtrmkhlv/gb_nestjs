@@ -30,14 +30,14 @@ async function bootstrap() {
   hbs.registerPartials(__dirname + '/views/partials');
   app.setViewEngine('hbs');
 
-  app.use('/news/:id', function (request, response) {
-    response.render('news', {
-      title: 'Мои контакты',
-      emailsVisible: true,
-      emails: ['gavgav@mycorp.com', 'mioaw@mycorp.com'],
-      phone: '+1234567890',
-    });
-  });
+  // app.use('/news/:id', function (request, response) {
+  //   response.render('news', {
+  //     title: 'Мои контакты',
+  //     emailsVisible: true,
+  //     emails: ['gavgav@mycorp.com', 'mioaw@mycorp.com'],
+  //     phone: '+1234567890',
+  //   });
+  // });
 
   await app.listen(3000);
 }
