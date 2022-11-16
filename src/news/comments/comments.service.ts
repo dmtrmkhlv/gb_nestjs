@@ -9,11 +9,11 @@ export class CommentsService {
   private readonly comments = {
     1: [
       {
-        id: 1,
+        id: 'qwe',
         text: 'text',
       },
       {
-        id: 2,
+        id: 'qwe',
         text: 'text second',
       },
     ],

@@ -58,7 +58,7 @@ export class NewsController {
   @Get('/:id')
   @Render('news')
   async findNews(@Param() params: NewsIdDto): Promise<News | undefined> {
-    return this.newsService.findNews(params.id);
+    return this.newsService.getOneNews(params.id);
   }
 
   @Delete(':id')
