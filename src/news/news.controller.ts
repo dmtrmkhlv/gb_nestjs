@@ -76,11 +76,18 @@ export class NewsController {
   }
 
   @Get('/:id/detail')
-  async getViewOne(@Param('id') id: string): Promise<string> {
+  @Render('news-comments')
+  async getViewOne(@Param('id') id: string): Promise<News | undefined> {
     const oneNews = await this.newsService.getOneNews(id);
     const oneNewsComments = await this.commentService.findAll(id);
-    return htmlTemplate(newsTemplate([oneNews], oneNewsComments));
+    oneNews.comments = oneNewsComments;
+    return oneNews;
   }
+  // async getViewOne(@Param('id') id: string): Promise<string> {
+  //   const oneNews = await this.newsService.getOneNews(id);
+  //   const oneNewsComments = await this.commentService.findAll(id);
+  //   return htmlTemplate(newsTemplate([oneNews], oneNewsComments));
+  // }
 
   // @Post('upload')
   // @UseInterceptors(
