@@ -2,6 +2,10 @@ import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 export class CommentCreateDto {
   @IsNotEmpty()
   @IsString()
+  newsId: number;
+
+  @IsNotEmpty()
+  @IsString()
   id: string;
 
   @IsNotEmpty()

@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from 'src/dto/comment.dto';
+import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentsEntity } from './comments.entity';
 import { CommentCreateDto } from './dtos/comment-create.dto';
 import { CommentUpdateDto } from './dtos/comment-update.dto';
 
 @Injectable()
 export class CommentsService {
+  constructor(
+    @InjectRepository(CommentsEntity)
+    private readonly commentsRepository: Repository<CommentsEntity>,
+  ) {}
   private readonly comments = {
     qwe: [
       {
@@ -18,20 +25,19 @@ export class CommentsService {
       },
     ],
   };
-  async create(idNews: string, comment: CommentCreateDto): Promise<number> {
+  async create(idNews: string, comment: CommentCreateDto) {
     if (!this.comments?.[idNews]) {
       this.comments[idNews] = [];
     }
-    // return this.comments[idNews].push({
-    //   text: comment.text,
-    //   id: uuidv4(),
-    // });
-    return this.comments[idNews].push({
+
+    return await this.commentsRepository.save({
+      newsId: idNews,
       text: comment.text,
       cover: comment.cover,
       id: uuidv4(),
     });
   }
+
   async findAll(idNews: number): Promise<CommentCreateDto[] | undefined> {
     return this.comments?.[idNews];
   }
@@ -49,6 +55,7 @@ export class CommentsService {
     }
     return false;
   }
+
   async remove(idNews: string, idComment: string): Promise<boolean> {
     const index = this.comments?.[idNews].findIndex((x) => x.id === idComment);
     if (index !== -1) {
