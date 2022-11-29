@@ -11,6 +11,10 @@ import { CalculateController } from './calculate/calculate.controller';
 import { CalculateService } from './calculate/calculate.service';
 import { MailModule } from './mail/mail.module';
 import { CommentsModule } from './news/comments/comments.module';
+import { UsersModule } from './users/users.module';
+import { CategoriesService } from './categories/categories.service';
+import { CategoriesController } from './categories/categories.controller';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -20,9 +24,11 @@ import { CommentsModule } from './news/comments/comments.module';
       rootPath: join(__dirname, '..', 'public'),
     }),
     MailModule,
+    UsersModule,
+    CategoriesModule,
   ],
-  controllers: [AppController, CalculateController, NewsController],
-  providers: [AppService, CalculateService, NewsService],
+  controllers: [AppController, CalculateController, NewsController, CategoriesController],
+  providers: [AppService, CalculateService, NewsService, CategoriesService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

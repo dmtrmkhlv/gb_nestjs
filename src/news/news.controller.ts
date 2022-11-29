@@ -9,23 +9,23 @@ import {
   Render,
   UploadedFiles,
   UseInterceptors,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { News } from 'src/dto/news.dto';
 import { newsTemplate } from 'src/views/newsTemplate';
 import { htmlTemplate } from 'src/views/template';
 import { NewsService } from './news.service';
 import { CommentsService } from './comments/comments.service';
 import { NewsIdDto } from './dtos/news-id.dto';
-import { NewsCreateDto } from './dtos/news-create.dto';
 import { diskStorage } from 'multer';
 import { HelperFileLoader } from 'src/utility/HelperFileLoader';
 import { LoggingInterceptor } from 'src/common/middleware/logging.interceptor';
-import { v4 as uuidv4 } from 'uuid';
 import { MailService } from '../mail/mail.service';
-
-// const helperFileLoader = new HelperFileLoader();
-// helperFileLoader.path = '/news';
+import { NewsEntity } from './news.entity';
+import { UsersService } from 'src/users/users.service';
+import { CategoriesService } from 'src/categories/categories.service';
 
 const PATH_NEWS = '/news-static/';
 const helperFileLoader = new HelperFileLoader();
@@ -37,6 +37,8 @@ export class NewsController {
   constructor(
     private readonly newsService: NewsService,
     private readonly commentService: CommentsService,
+    private readonly usersService: UsersService,
+    private readonly categoriesService: CategoriesService,
     private mailService: MailService,
   ) {}
 
@@ -77,7 +79,7 @@ export class NewsController {
 
   @Get('/:id/detail')
   @Render('news-comments')
-  async getViewOne(@Param('id') id: string): Promise<News | undefined> {
+  async getViewOne(@Param('id') id: number): Promise<News | undefined> {
     const oneNews = await this.newsService.getOneNews(id);
     const oneNewsComments = await this.commentService.findAll(id);
     oneNews.comments = oneNewsComments;
@@ -120,31 +122,59 @@ export class NewsController {
       }),
     }),
   )
-  async create(
-    @Body() news: News,
-    @UploadedFiles() cover: Express.Multer.File,
-  ) {
-    let coverPath;
-    if (cover[0]?.filename?.length > 0) {
-      coverPath = PATH_NEWS + cover[0].filename;
+  // async create(
+  //   @Body() news: News,
+  //   @UploadedFiles() cover: Express.Multer.File,
+  // ) {
+  //   let coverPath;
+  //   if (cover[0]?.filename?.length > 0) {
+  //     coverPath = PATH_NEWS + cover[0].filename;
+  //   }
+
+  //   const _news = this.newsService.create({
+  //     ...news,
+  //     id: uuidv4(),
+  //     cover: coverPath,
+  //   });
+
+  //   await this.mailService.sendNewNewsForAdmins(
+  //     ['snezhkinv@yandex.ru', 'snezhkinv20@gmail.com'],
+  //     await _news,
+  //   );
+  //   return _news;
+  // }
+  async create(@Body() news: News, @UploadedFile() cover: Express.Multer.File) {
+    // Поиск пользователя по его ID
+    const _user = await this.usersService.findNews(news.authorId);
+    if (!_user) {
+      throw new HttpException(
+        'Не существует такого автора',
+        HttpStatus.BAD_REQUEST,
+      );
     }
-
-    const _news = this.newsService.create({
-      ...news,
-      id: uuidv4(),
-      cover: coverPath,
-    });
-
+    // Поиск категории по её ID
+    const _category = await this.categoriesService.findById(news.categoryId);
+    if (!_category) {
+      throw new HttpException(
+        'Не существует такой категории',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const _newsEntity = new NewsEntity();
+    if (cover?.filename) {
+      _newsEntity.cover = PATH_NEWS + cover.filename;
+    }
+    _newsEntity.title = news.title;
+    _newsEntity.description = news.description;
+    // Добавление пользователя в связь
+    _newsEntity.author = _user;
+    // Добавление категории в связь
+    _newsEntity.category = _category;
+    const _news = await this.newsService.create(_newsEntity);
     await this.mailService.sendNewNewsForAdmins(
       ['snezhkinv@yandex.ru', 'snezhkinv20@gmail.com'],
-      await _news,
+      _news,
     );
     return _news;
-
-    // return this.newsService.create({
-    //   ...news,
-    //   id: uuidv4(),
-    //   cover: coverPath,
-    // });
   }
 }

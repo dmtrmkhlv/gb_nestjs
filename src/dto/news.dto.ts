@@ -1,3 +1,4 @@
+import { UsersEntity } from 'src/users/users.entity';
 import { Comment } from './comment.dto';
 
 // export class News {
@@ -10,11 +11,14 @@ import { Comment } from './comment.dto';
 // }
 
 export interface News {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  author: string;
+  author: UsersEntity;
   cover?: string;
   createdAt: Date;
-  comments: Comment[];
+  updatedAt?: Date;
+  comments?: Comment[];
+  authorId?: number;
+  categoryId?: number;
 }

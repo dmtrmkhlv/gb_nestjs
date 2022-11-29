@@ -32,7 +32,7 @@ export class CommentsService {
       id: uuidv4(),
     });
   }
-  async findAll(idNews: string): Promise<CommentCreateDto[] | undefined> {
+  async findAll(idNews: number): Promise<CommentCreateDto[] | undefined> {
     return this.comments?.[idNews];
   }
   async updateComments(
@@ -57,7 +57,7 @@ export class CommentsService {
     }
     return false;
   }
-  async removeAll(idNews: string): Promise<boolean> {
+  async removeAll(idNews: number): Promise<boolean> {
     return delete this.comments?.[idNews];
   }
 }
