@@ -42,28 +42,31 @@ export class CommentsService {
     return this.comments?.[idNews];
   }
   async updateComments(
-    idNews: string,
+    idNews: number,
     comment: Comment,
   ): Promise<{} | boolean> {
-    const index = this.comments?.[idNews].findIndex(
+    const news = await this.commentsRepository.findOneById(idNews);
+    const index = news['comments'].findIndex(
       (x: Comment) => x.id == comment.id,
     );
 
     if (index !== -1) {
-      this.comments[idNews][index].text = comment.text;
-      return this.comments?.[idNews];
+      news['comments'][index].text = comment.text;
+      await this.commentsRepository.update(index, news['comments']);
     }
     return false;
   }
 
-  async remove(idNews: string, idComment: string): Promise<boolean> {
-    const index = this.comments?.[idNews].findIndex((x) => x.id === idComment);
+  async remove(idNews: number, idComment: number): Promise<boolean> {
+    const news = await this.commentsRepository.findOneById(idNews);
+    const index = news['comments'].findIndex((x) => x.id === idComment);
     if (index !== -1) {
-      this.comments[idNews].splice(index, 1);
+      await this.commentsRepository.delete(index);
       return true;
     }
     return false;
   }
+
   async removeAll(idNews: number): Promise<boolean> {
     return delete this.comments?.[idNews];
   }

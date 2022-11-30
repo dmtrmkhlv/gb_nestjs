@@ -34,15 +34,14 @@ export class NewsService {
     private readonly newsRepository: Repository<NewsEntity>,
   ) {}
   async updateNews(data: News): Promise<News> {
-    let news = allNews[data[0].id];
+    let news = await this.newsRepository.find({})[data[0].id];
     if (news) {
       let newData = {
         ...news,
         ...data[0],
       };
-      allNews[data.id] = newData;
-
-      return allNews[data.id];
+      await this.newsRepository.update(data.id, newData);
+      return await this.newsRepository.find({})[data[0].id];
     }
   }
 
@@ -54,7 +53,11 @@ export class NewsService {
     return await this.newsRepository.findOneById(id);
   }
 
-  async getAllNews(): Promise<NewsEntity[]> {
+  async getAllNews(authorId?: number): Promise<NewsEntity[]> {
+    if (authorId) {
+      const allNews = await this.newsRepository.find({});
+      return allNews.filter((news) => news.author.id == authorId);
+    }
     return await this.newsRepository.find({});
   }
 

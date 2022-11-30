@@ -1,4 +1,4 @@
 export class Comment {
-  id: string;
+  id: number;
   text: string;
 }

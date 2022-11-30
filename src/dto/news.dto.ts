@@ -1,3 +1,4 @@
+import { CommentCreateDto } from 'src/news/comments/dtos/comment-create.dto';
 import { UsersEntity } from 'src/users/users.entity';
 import { Comment } from './comment.dto';
 
@@ -18,7 +19,7 @@ export interface News {
   cover?: string;
   createdAt: Date;
   updatedAt?: Date;
-  comments?: Comment[];
+  comments?: CommentCreateDto[];
   authorId?: number;
   categoryId?: number;
 }
