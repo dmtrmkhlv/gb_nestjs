@@ -33,7 +33,7 @@ export class CommentsController {
   @Post('update')
   updateComments(
     @Query('idNews') idNews,
-    @Body() comment: CommentUpdateDto,
+    @Body() comment: Comment,
   ): Promise<{} | boolean> {
     return this.commentsService.updateComments(idNews, comment);
   }

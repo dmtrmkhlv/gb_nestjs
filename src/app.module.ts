@@ -15,9 +15,22 @@ import { UsersModule } from './users/users.module';
 import { CategoriesService } from './categories/categories.service';
 import { CategoriesController } from './categories/categories.controller';
 import { CategoriesModule } from './categories/categories.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { UsersEntity } from './users/users.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'test',
+      entities: [UsersEntity],
+      synchronize: true,
+    }),
     NewsModule,
     CommentsModule,
     ServeStaticModule.forRoot({
@@ -27,10 +40,16 @@ import { CategoriesModule } from './categories/categories.module';
     UsersModule,
     CategoriesModule,
   ],
-  controllers: [AppController, CalculateController, NewsController, CategoriesController],
+  controllers: [
+    AppController,
+    CalculateController,
+    NewsController,
+    CategoriesController,
+  ],
   providers: [AppService, CalculateService, NewsService, CategoriesService],
 })
 export class AppModule implements NestModule {
+  constructor(private dataSource: DataSource) {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes(NewsController);
     // .forRoutes('news');
