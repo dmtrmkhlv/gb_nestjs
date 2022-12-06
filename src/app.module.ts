@@ -18,6 +18,9 @@ import { CategoriesModule } from './categories/categories.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { UsersEntity } from './users/users.entity';
+import { NewsEntity } from './news/news.entity';
+import { CommentsEntity } from './news/comments/comments.entity';
+import { CategoriesEntity } from './categories/categories.entity';
 
 @Module({
   imports: [
@@ -28,14 +31,14 @@ import { UsersEntity } from './users/users.entity';
       username: 'admin',
       password: 'admin',
       database: 'postgres',
-      entities: [UsersEntity],
+      entities: [UsersEntity, NewsEntity, CommentsEntity, CategoriesEntity],
       synchronize: true,
     }),
-    // NewsModule,
-    CommentsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    // NewsModule,
+    CommentsModule,
     MailModule,
     UsersModule,
     CategoriesModule,
