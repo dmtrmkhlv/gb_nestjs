@@ -31,7 +31,7 @@ import { UsersEntity } from './users/users.entity';
       entities: [UsersEntity],
       synchronize: true,
     }),
-    NewsModule,
+    // NewsModule,
     CommentsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
@@ -40,13 +40,15 @@ import { UsersEntity } from './users/users.entity';
     UsersModule,
     CategoriesModule,
   ],
-  controllers: [
-    AppController,
-    CalculateController,
-    NewsController,
-    CategoriesController,
-  ],
-  providers: [AppService, CalculateService, NewsService, CategoriesService],
+  // controllers: [
+  //   AppController,
+  //   CalculateController,
+  //   NewsController,
+  //   CategoriesController,
+  // ],
+  controllers: [AppController],
+  // providers: [AppService, CalculateService, NewsService, CategoriesService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   constructor(private dataSource: DataSource) {}
