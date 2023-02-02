@@ -34,9 +34,9 @@ export class NewsService {
     private readonly newsRepository: Repository<NewsEntity>,
   ) {}
   async updateNews(data: News): Promise<News> {
-    let news = await this.newsRepository.find({})[data[0].id];
+    const news = await this.newsRepository.find({})[data[0].id];
     if (news) {
-      let newData = {
+      const newData = {
         ...news,
         ...data[0],
       };
@@ -50,7 +50,7 @@ export class NewsService {
   }
 
   async findNews(id): Promise<NewsEntity> {
-    return await this.newsRepository.findOneById(id);
+    return await this.newsRepository.findOneBy(id);
   }
 
   async getAllNews(authorId?: number): Promise<NewsEntity[]> {

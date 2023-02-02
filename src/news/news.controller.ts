@@ -111,8 +111,7 @@ export class NewsController {
       }),
     }),
   )
-  uploadFile(@UploadedFiles() file: Express.Multer.File[]) {}
-
+  // uploadFile(@UploadedFiles() file: Express.Multer.File[]) {}
   @Post()
   @UseInterceptors(
     FilesInterceptor('cover', 1, {
@@ -145,7 +144,7 @@ export class NewsController {
   // }
   async create(@Body() news: News, @UploadedFile() cover: Express.Multer.File) {
     // Поиск пользователя по его ID
-    const _user = await this.usersService.findNews(news.authorId);
+    const _user = await this.usersService.findById(news.authorId);
     if (!_user) {
       throw new HttpException(
         'Не существует такого автора',
