@@ -1,0 +1,40 @@
+{{#if title}}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <img src='http://localhost:3000/{{cover}}' class="card-img-top" style="height: 200px; object-fit: cover;"
+                alt=''>
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Автор: {{author}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Дата создания:
+                    {{createdAt}}</h6>
+                <p class="card-text">{{description}}</p>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    Комментарии:
+                </h6>
+                <div>
+                    {{#each comments}}
+                    <sup>№{{this.id}}</sup>
+                    <div style=" display: flex; ">
+                        <img src='http://localhost:3000/{{this?.cover}}' class="card-img-top"
+                            style="height: 20px; width: 20px;" alt=''>
+                        <p class="card-text">{{this.text}}</p>
+                    </div>
+                    {{/each}}
+                    <form action="/news-comments/create" method="post" class="form-floating">
+                        <div class="mb-2">
+                        <textarea class="form-control" name="text" id="text" cols="30" rows="5"
+                            placeholder="Напишите свой комментарий"></textarea>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Отправить</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<h1>Такой новости нет</h1>
+{{/if}}
