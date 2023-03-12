@@ -1,0 +1,45 @@
+{{!-- {{#if title}}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <img src='http://localhost:3000/{{cover}}' class="card-img-top"
+                style="height: 200px; object-fit: cover;" alt=''>
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Автор: {{author}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Дата создания:
+                    {{createdAt}}</h6>
+                <p class="card-text">{{description}}</p>
+                <a href="./{{id}}/detail">Комментарии</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<h1>Такой новости нет</h1>
+{{/if}} --}}
+{{#if title}}
+<div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+<div class="col-10 col-sm-8 col-lg-6">
+<img src='http://localhost:3000/{{cover}}' class="d-block mx-lg-auto img-fluid"
+alt="{{title}}" width="700" height="500" loading="lazy">
+</div>
+<div class="col-lg-6">
+<h1 class="display-5 fw-bold lh-1 mb-3">{{title}}</h1>
+<div class="text-muted">Дата создания: {{createdAt}}</div>
+<div class="text-muted">
+Автор: {{author.firstName}} {{author.lastName}}
+</div>
+<p class="lead">{{description}}</p>
+</div>
+</div>
+{{else}}
+<h1>Новость не найдена!</h1>
+{{/if}}
+<!-- Блок комментариев -->
+<h2 class="fw-bold lh-1 mb-3">Комментарии</h2>
+<!-- Блок, куда ReactJS будет вставлять вёрстку комментариев -->
+<div id="app">
+</div>
+<!-- Подключим ReactJS-скрипт комментариев -->
+<script src="/js/comments.js" type="text/babel"></script>
