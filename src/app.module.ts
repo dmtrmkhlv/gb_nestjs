@@ -21,6 +21,7 @@ import { UsersService } from './users/users.service';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     CategoriesModule,
     AuthModule,
     EventEmitterModule.forRoot(),
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [

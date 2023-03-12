@@ -1,12 +1,5 @@
-// import { NestFactory } from '@nestjs/core';
-// import { AppModule } from './app.module';
-
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(3000);
-// }
-// bootstrap();
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as expressHbs from 'express-handlebars';
@@ -30,15 +23,16 @@ async function bootstrap() {
   hbs.registerPartials(__dirname + '/views/partials');
   app.setViewEngine('hbs');
 
-  // app.use('/news/:id', function (request, response) {
-  //   response.render('news', {
-  //     title: 'Мои контакты',
-  //     emailsVisible: true,
-  //     emails: ['gavgav@mycorp.com', 'mioaw@mycorp.com'],
-  //     phone: '+1234567890',
-  //   });
-  // });
+  const config = new DocumentBuilder()
+    .setTitle('Api')
+    .setDescription('The API description')
+    .setVersion('1.0')
+    .addTag('api')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
+  app.enableCors();
   await app.listen(3000);
 }
 
