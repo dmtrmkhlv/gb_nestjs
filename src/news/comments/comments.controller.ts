@@ -7,15 +7,18 @@ import {
   Param,
   Post,
   Query,
+  Request,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { Comment } from 'src/dto/comment.dto';
 
 import { CommentsService } from './comments.service';
-import { CommentUpdateDto } from './dtos/comment-update.dto';
+import { CommentUpdateDto } from './dto/comment-update.dto';
 import { diskStorage } from 'multer';
 import { HelperFileLoader } from 'src/utility/HelperFileLoader';
+import { CommentCreateDto } from './dto/comment-create.dto';
+import { CommentsEntity } from './comments.entity';
 
 const PATH_NEWS = '/comment-static/';
 const helperFileLoader = new HelperFileLoader();
@@ -25,16 +28,16 @@ helperFileLoader.path = PATH_NEWS;
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Get()
-  getAll(@Query('idNews') idNews): Promise<{}> {
-    return this.commentsService.findAll(idNews);
+  @Get(':id')
+  getAll(@Param('id') id: string): Promise<CommentsEntity[]> {
+    return this.commentsService.findAll(+id);
   }
 
   @Post('update')
   updateComments(
     @Query('idNews') idNews,
-    @Body() comment: Comment,
-  ): Promise<{} | boolean> {
+    @Body() comment: CommentUpdateDto,
+  ): Promise<CommentsEntity[] | boolean> {
     return this.commentsService.updateComments(idNews, comment);
   }
 
@@ -56,6 +59,7 @@ export class CommentsController {
     @Query('idNews') idNews,
     @Body() comment,
     @UploadedFiles() cover: Express.Multer.File,
+    @Request() req,
   ) {
     let coverPath;
 
@@ -66,16 +70,16 @@ export class CommentsController {
     // create(@Query('idNews') idNews, @Body() comment): Promise<number> {
     //   return this.commentsService.create(idNews, comment);
     // }
-    return this.commentsService.create(idNews, comment);
+    return this.commentsService.create(idNews, comment, req.user.userId);
   }
 
   @Delete(':id')
-  remove(@Query('idNews') idNews, @Param('id') idComment): Promise<boolean> {
-    return this.commentsService.remove(idNews, idComment);
+  remove(@Param('id') idComment): Promise<CommentsEntity[]> {
+    return this.commentsService.remove(idComment);
   }
 
   @Delete('all')
-  removeAll(@Query('idNews') idNews): Promise<boolean> {
+  removeAll(@Query('idNews') idNews): Promise<CommentsEntity[]> {
     return this.commentsService.removeAll(idNews);
   }
 }

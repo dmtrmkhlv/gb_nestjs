@@ -1,4 +1,4 @@
-import { CommentCreateDto } from 'src/news/comments/dtos/comment-create.dto';
+import { CommentCreateDto } from 'src/news/comments/dto/comment-create.dto';
 import { UsersEntity } from 'src/users/users.entity';
 import { Comment } from './comment.dto';
 

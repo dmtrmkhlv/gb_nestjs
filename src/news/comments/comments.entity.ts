@@ -1,3 +1,4 @@
+import { News } from 'src/dto/news.dto';
 import {
   Entity,
   Column,
@@ -11,12 +12,19 @@ import { UsersEntity } from '../../users/users.entity';
 export class CommentsEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column('text')
-  message: string;
+  text: string;
+
+  @Column('text')
+  news: News;
+
   @ManyToOne(() => UsersEntity, (author) => author.comments)
   author: UsersEntity;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
+
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 }

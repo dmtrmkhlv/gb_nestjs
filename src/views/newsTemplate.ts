@@ -1,6 +1,6 @@
 import { Comment } from 'src/dto/comment.dto';
 import { News } from 'src/dto/news.dto';
-import { CommentCreateDto } from 'src/news/comments/dtos/comment-create.dto';
+import { CommentCreateDto } from 'src/news/comments/dto/comment-create.dto';
 
 export const newsTemplate = (news: News[], comments?: CommentCreateDto[]) => {
   if (news?.length === 0) {

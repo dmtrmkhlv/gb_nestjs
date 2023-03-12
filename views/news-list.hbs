@@ -1,21 +1,25 @@
 {{#if news}}
-<div class="row">
-    {{#each news}}
-    <div class="col-lg-6">
-        <div class="card">
-            <img src='http://localhost:3000{{this.cover}}' class="card-img-top"
-                style="height: 200px; object-fit: cover;" alt=''>
-            <div class="card-body">
-                <h5 class="card-title">{{this.title}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Автор: {{this.author}}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">Дата создания:
-                    {{this.createdAt}}</h6>
-                <p class="card-text">{{this.description}}</p>
-            </div>
-        </div>
-    </div>
-    {{/each}}
+<div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+<div class="col-10 col-sm-8 col-lg-6">
+<img src="{{news.cover}}" class="d-block mx-lg-auto img-fluid"
+alt="{{news.title}}" width="700" height="500" loading="lazy">
+</div>
+<div class="col-lg-6">
+<h1 class="display-5 fw-bold lh-1 mb-3">{{news.title}}</h1>
+<div class="text-muted">Дата создания: {{news.createdAt}}</div>
+<div class="text-muted">
+Автор: {{news.user.firstName}} {{news.user.lastName}}
+</div>
+<p class="lead">{{news.description}}</p>
+</div>
 </div>
 {{else}}
-<h1>Список новостей пуст!</h1>
+<h1>Новость не найдена!</h1>
 {{/if}}
+<!-- Блок комментариев -->
+<h2 class="fw-bold lh-1 mb-3">Комментарии</h2>
+<!-- Блок, куда ReactJS будет вставлять вёрстку комментариев -->
+<div id="app">
+</div>
+<!-- Подключим ReactJS-скрипт комментариев -->
+<script src="/js/comments.js" type="text/babel"></script>

@@ -62,7 +62,7 @@ export class NewsService {
   }
 
   async getOneNews(id: number): Promise<News | undefined> {
-    const index = allNews.findIndex((x) => x.id === id);
+    const index = allNews.findIndex((x) => x.id == id);
     return allNews[index];
   }
 

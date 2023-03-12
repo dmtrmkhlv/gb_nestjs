@@ -1,7 +1,7 @@
 import { News } from './../dto/news.dto';
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { NewsCreateDto } from 'src/news/dtos/news-create.dto';
+import { NewsCreateDto } from 'src/news/dto/news-create.dto';
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}

@@ -20,6 +20,7 @@ import { RolesGuard } from './auth/role/roles.guard';
 import { UsersService } from './users/users.service';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { AppController } from './app.controller';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'admin',
+      username: 'postgres',
       password: 'admin',
       database: 'postgres',
       entities: [UsersEntity, NewsEntity, CommentsEntity, CategoriesEntity],
@@ -42,6 +43,7 @@ import { AppController } from './app.controller';
     UsersModule,
     CategoriesModule,
     AuthModule,
+    EventEmitterModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [

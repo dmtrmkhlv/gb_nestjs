@@ -18,7 +18,7 @@ import { newsTemplate } from 'src/views/newsTemplate';
 import { htmlTemplate } from 'src/views/template';
 import { NewsService } from './news.service';
 import { CommentsService } from './comments/comments.service';
-import { NewsIdDto } from './dtos/news-id.dto';
+import { NewsIdDto } from './dto/news-id.dto';
 import { diskStorage } from 'multer';
 import { HelperFileLoader } from 'src/utility/HelperFileLoader';
 import { LoggingInterceptor } from 'src/common/middleware/logging.interceptor';
@@ -64,7 +64,7 @@ export class NewsController {
   }
 
   @Delete(':id')
-  async remove(@Param() params: NewsIdDto): Promise<boolean> {
+  async remove(@Param() params: NewsIdDto): Promise<any> {
     return (
       this.newsService.remove(params.id) &&
       this.commentService.removeAll(params.id)
@@ -82,8 +82,9 @@ export class NewsController {
   async getViewOne(@Param('id') id: number): Promise<News | undefined> {
     const oneNews = await this.newsService.getOneNews(id);
     const oneNewsComments = await this.commentService.findAll(id);
-    oneNews.comments = oneNewsComments;
+    // oneNews.comments = oneNewsComments;
     return oneNews;
+    // return htmlTemplate(newsTemplate([oneNews], oneNewsComments));
   }
   // async getViewOne(@Param('id') id: string): Promise<string> {
   //   const oneNews = await this.newsService.getOneNews(id);
