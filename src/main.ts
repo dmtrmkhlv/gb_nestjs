@@ -6,6 +6,7 @@ import * as expressHbs from 'express-handlebars';
 import { join } from 'path';
 import * as hbs from 'hbs';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -33,6 +34,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors();
+  app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
 }
 

@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   HttpException,
   HttpStatus,
+  All,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { News } from 'src/dto/news.dto';
@@ -42,17 +43,13 @@ export class NewsController {
     private mailService: MailService,
   ) {}
 
-  // @Post()
-  // async create(@Body() news: NewsCreateDto): Promise<number> {
-  //   return this.newsService.create(news);
-  // }
-
   @Post('/update')
   async updateNews(@Body() data: News): Promise<News> {
     return this.newsService.updateNews(data);
   }
 
   @Get('all')
+  @Render('news-list')
   async getAllNews(): Promise<News[]> {
     return this.newsService.getAllNews();
   }

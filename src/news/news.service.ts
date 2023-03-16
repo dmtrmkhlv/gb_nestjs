@@ -62,7 +62,11 @@ export class NewsService {
   }
 
   async getOneNews(id: number): Promise<News | undefined> {
+    // const env: string | undefined = process.env.NODE_ENV;
+    console.log(process.env.NODE_ENV);
+
     const index = allNews.findIndex((x) => x.id == id);
+    // return undefined;
     return allNews[index];
   }
 
