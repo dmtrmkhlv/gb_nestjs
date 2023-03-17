@@ -30,27 +30,27 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? 'postgres'
             : 'mysql',
         host:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? configService.get<string>('NODE_ENV__DB_host_DEVELOP')
             : configService.get<string>('NODE_ENV__DB_host_DEPLOY'),
         port:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? parseInt(configService.get<string>('NODE_ENV__DB_port_DEVELOP'))
             : parseInt(configService.get<string>('NODE_ENV__DB_port_DEPLOY')),
         username:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? configService.get<string>('NODE_ENV__DB_username_DEVELOP')
             : configService.get<string>('NODE_ENV__DB_username_DEPLOY'),
         password:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? configService.get<string>('NODE_ENV__DB_password_DEVELOP')
             : configService.get<string>('NODE_ENV__DB_password_DEPLOY'),
         database:
-          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+          configService.get<string>('PASSENGER_APP_ENV') !== 'production'
             ? configService.get<string>('NODE_ENV__DB_database_DEVELOP')
             : configService.get<string>('NODE_ENV__DB_database_DEPLOY'),
         entities: [UsersEntity, NewsEntity, CommentsEntity, CategoriesEntity],
