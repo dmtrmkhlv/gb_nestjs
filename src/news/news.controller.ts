@@ -48,7 +48,7 @@ export class NewsController {
     return this.newsService.updateNews(data);
   }
 
-  @Get('all')
+  @Get()
   @Render('news-list')
   async getAllNews(): Promise<News[]> {
     return this.newsService.getAllNews();
@@ -66,12 +66,6 @@ export class NewsController {
       this.newsService.remove(params.id) &&
       this.commentService.removeAll(params.id)
     );
-  }
-
-  @Get()
-  async getViewAll(): Promise<string> {
-    const news = await this.newsService.getAllNews();
-    return htmlTemplate(newsTemplate(news));
   }
 
   @Get('/:id/detail')

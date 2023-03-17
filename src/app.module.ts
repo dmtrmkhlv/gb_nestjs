@@ -21,19 +21,42 @@ import { UsersService } from './users/users.service';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
-      database: 'postgres',
-      entities: [UsersEntity, NewsEntity, CommentsEntity, CategoriesEntity],
-      synchronize: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? 'postgres'
+            : 'mysql',
+        host:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? configService.get<string>('NODE_ENV__DB_host_DEVELOP')
+            : configService.get<string>('NODE_ENV__DB_host_DEPLOY'),
+        port:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? parseInt(configService.get<string>('NODE_ENV__DB_port_DEVELOP'))
+            : parseInt(configService.get<string>('NODE_ENV__DB_port_DEPLOY')),
+        username:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? configService.get<string>('NODE_ENV__DB_username_DEVELOP')
+            : configService.get<string>('NODE_ENV__DB_username_DEPLOY'),
+        password:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? configService.get<string>('NODE_ENV__DB_password_DEVELOP')
+            : configService.get<string>('NODE_ENV__DB_password_DEPLOY'),
+        database:
+          configService.get<string>('NODE_ENV_TYPE') === 'develop'
+            ? configService.get<string>('NODE_ENV__DB_database_DEVELOP')
+            : configService.get<string>('NODE_ENV__DB_database_DEPLOY'),
+        entities: [UsersEntity, NewsEntity, CommentsEntity, CategoriesEntity],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
