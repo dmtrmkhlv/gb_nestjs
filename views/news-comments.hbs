@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
-            <img src='http://localhost:3000/{{cover}}' class="card-img-top" style="height: 200px; object-fit: cover;"
+            <img src='/{{cover}}' class="card-img-top" style="height: 200px; object-fit: cover;"
                 alt=''>
             <div class="card-body">
                 <h5 class="card-title">{{title}}</h5>
@@ -17,7 +17,7 @@
                     {{#each comments}}
                     <sup>№{{this.id}}</sup>
                     <div style=" display: flex; ">
-                        <img src='http://localhost:3000/{{this?.cover}}' class="card-img-top"
+                        <img src='/{{this?.cover}}' class="card-img-top"
                             style="height: 20px; width: 20px;" alt=''>
                         <p class="card-text">{{this.text}}</p>
                     </div>

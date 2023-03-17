@@ -13,7 +13,7 @@ export const newsTemplate = (news: News[], comments?: CommentCreateDto[]) => {
     comments?.forEach((commentItem) => {
       commentHTML += `<sup>№${commentItem.id}</sup>
       <div style=" display: flex; ">
-      <img src='http://localhost:3000/${commentItem?.cover}' class="card-img-top"
+      <img src='/${commentItem?.cover}' class="card-img-top"
                 style="height: 20px; width: 20px;" alt=''>
                 <p class="card-text">${commentItem.text}</p>
       </div>
@@ -23,7 +23,7 @@ export const newsTemplate = (news: News[], comments?: CommentCreateDto[]) => {
     html += `
     <div class="col-lg-6">
         <div class="card">
-        <img src='http://localhost:3000/${newsItem?.cover}' class="card-img-top"
+        <img src='/${newsItem?.cover}' class="card-img-top"
                 style="height: 200px; object-fit: cover;" alt=''>
             <div class="card-body">
                 <h5 class="card-title">${newsItem.title}</h5>

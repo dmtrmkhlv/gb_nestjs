@@ -38,12 +38,9 @@ class Comments extends React.Component {
     });
   }
   getAllComments = async () => {
-    const response = await fetch(
-      `http://localhost:3000/news-comments/${this.idNews}`,
-      {
-        method: 'GET',
-      },
-    );
+    const response = await fetch(`/news-comments/${this.idNews}`, {
+      method: 'GET',
+    });
     if (response.ok) {
       const comments = await response.json();
       this.setState({ comments });
