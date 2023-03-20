@@ -1,21 +1,22 @@
 {{#if news}}
 <div class="row">
-{{#each news}}
-<div class="col-lg-6">
-<a href="./{{this.id}}" class="card" style="text-decoration: none;color: black;margin-bottom: 20px;">
-<img src='/{{this.cover}}'
-class="card-img-top" style="height: 200px; object-fit: contain;background-color: rgba(128, 128, 128, 0.497);" alt=''>
-<div class="card-body">
-<h5 class="card-title">{{this.title}}</h5>
-<h6 class="card-subtitle mb-2 text-muted">Автор:
-{{this.author.firstName}} {{this.author.lastName}}</h6> <h6 class="card-subtitle mb-2 text-muted">Дата
-создания:
-{{this.createdAt}}</h6>
-<p class="card-text">{{this.description}}</p>
-</div>
-</a>
-</div>
-{{/each}}
+    {{#each news}}
+    <div class="col-lg-6">
+        <a href="./{{this.id}}" class="card" style="text-decoration: none;color: black;margin-bottom: 20px;">
+            <img src='/{{this.cover}}' class="card-img-top"
+                style="height: 200px; object-fit: contain;background-color: rgba(128, 128, 128, 0.497);" alt=''>
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Автор:
+                    {{this.author.firstName}} {{this.author.lastName}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Дата
+                    создания:
+                    {{this.createdAt}}</h6>
+                <p class="card-text">{{this.description}}</p>
+            </div>
+        </a>
+    </div>
+    {{/each}}
 </div>
 {{else}}
 <h1>Список новостей пуст!</h1>

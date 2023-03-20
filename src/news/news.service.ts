@@ -61,6 +61,8 @@ export class NewsService {
   async getAllNews(authorId?: string): Promise<NewsEntity[]> {
     allNews[0].author.firstName = 'Александр';
     allNews[0].author.lastName = 'Петров';
+    allNews[1].author.firstName = 'Иван';
+    allNews[1].author.lastName = 'Романов';
     return allNews;
     if (authorId) {
       const allNews = await this.newsRepository.find({});
