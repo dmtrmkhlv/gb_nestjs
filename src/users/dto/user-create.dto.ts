@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
 import { Role } from 'src/auth/role/role.enum';
 export class UserCreateDto {
   @IsNotEmpty()
-  id: number;
+  id: string;
   @IsNotEmpty()
   @IsString()
   firstName: string;

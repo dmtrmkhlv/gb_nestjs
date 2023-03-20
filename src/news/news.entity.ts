@@ -11,7 +11,7 @@ import { UsersEntity } from '../users/users.entity';
 @Entity('news')
 export class NewsEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
   @Column('text')
   title: string;
   @Column('text')
@@ -25,5 +25,5 @@ export class NewsEntity {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  updatedAt: Date | undefined;
 }

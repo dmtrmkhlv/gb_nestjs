@@ -27,6 +27,8 @@ import { MailService } from '../mail/mail.service';
 import { NewsEntity } from './news.entity';
 import { UsersService } from 'src/users/users.service';
 import { CategoriesService } from 'src/categories/categories.service';
+import { CategoriesEntity } from 'src/categories/categories.entity';
+import { UsersEntity } from 'src/users/users.entity';
 
 const PATH_NEWS = '/news-static/';
 const helperFileLoader = new HelperFileLoader();
@@ -48,15 +50,32 @@ export class NewsController {
     return this.newsService.updateNews(data);
   }
 
+  @Get('create-news')
+  async createFakeNews(): Promise<NewsEntity> {
+    const newNews: NewsEntity = {
+      title: 'string',
+      description: 'string',
+      cover: 'string',
+      author: new UsersEntity(),
+      createdAt: undefined,
+      id: '',
+      category: new CategoriesEntity(),
+      updatedAt: undefined,
+    };
+    return this.newsService.create(newNews);
+  }
+
   @Get()
   @Render('news-list')
-  async getAllNews(): Promise<News[]> {
-    return this.newsService.getAllNews();
+  async getAllNews(): Promise<{ news: NewsEntity[] }> {
+    return { news: await this.newsService.getAllNews() };
   }
 
   @Get('/:id')
   @Render('news')
   async findNews(@Param() params: NewsIdDto): Promise<News | undefined> {
+    console.log(this.newsService.getOneNews(params.id));
+
     return this.newsService.getOneNews(params.id);
   }
 
@@ -70,7 +89,7 @@ export class NewsController {
 
   @Get('/:id/detail')
   @Render('news-comments')
-  async getViewOne(@Param('id') id: number): Promise<News | undefined> {
+  async getViewOne(@Param('id') id: string): Promise<News | undefined> {
     const oneNews = await this.newsService.getOneNews(id);
     const oneNewsComments = await this.commentService.findAll(id);
     // oneNews.comments = oneNewsComments;

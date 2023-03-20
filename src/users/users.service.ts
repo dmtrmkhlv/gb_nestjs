@@ -9,7 +9,7 @@ import { hash } from 'src/utility/crypto';
 
 const allUsers: UserCreateDto[] = [
   {
-    id: 1,
+    id: '1',
     firstName: 'admin',
     lastName: 'admin',
     email: 'admin@mail.ru',
@@ -46,7 +46,7 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
-  async getOneUser(id: number): Promise<UserCreateDto | undefined> {
+  async getOneUser(id: string): Promise<UserCreateDto | undefined> {
     const index = allUsers.findIndex((x) => x.id == id);
     return allUsers[index];
   }

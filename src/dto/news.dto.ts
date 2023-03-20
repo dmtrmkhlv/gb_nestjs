@@ -12,7 +12,7 @@ import { Comment } from './comment.dto';
 // }
 
 export interface News {
-  id: number;
+  id: string;
   title: string;
   description: string;
   author: UsersEntity;
@@ -20,6 +20,6 @@ export interface News {
   createdAt: Date;
   updatedAt?: Date;
   comments?: CommentCreateDto[];
-  authorId?: number;
-  categoryId?: number;
+  authorId?: string;
+  categoryId?: string;
 }

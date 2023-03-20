@@ -38,11 +38,11 @@
 //     });
 //   }
 
-//   async findAll(idNews: number): Promise<CommentCreateDto[] | undefined> {
+//   async findAll(idNews: string): Promise<CommentCreateDto[] | undefined> {
 //     return this.comments?.[idNews];
 //   }
 //   async updateComments(
-//     idNews: number,
+//     idNews: string,
 //     comment: Comment,
 //   ): Promise<{} | boolean> {
 //     const news = await this.commentsRepository.findOneById(idNews);
@@ -57,7 +57,7 @@
 //     return false;
 //   }
 
-//   async remove(idNews: number, idComment: number): Promise<boolean> {
+//   async remove(idNews: string, idComment: string): Promise<boolean> {
 //     const news = await this.commentsRepository.findOneById(idNews);
 //     const index = news['comments'].findIndex((x) => x.id === idComment);
 //     if (index !== -1) {
@@ -67,7 +67,7 @@
 //     return false;
 //   }
 
-//   async removeAll(idNews: number): Promise<boolean> {
+//   async removeAll(idNews: string): Promise<boolean> {
 //     return delete this.comments?.[idNews];
 //   }
 // }
@@ -103,9 +103,9 @@ export class CommentsService {
     ],
   };
   async create(
-    idNews: number,
+    idNews: string,
     message: string,
-    userId: number,
+    userId: string,
   ): Promise<CommentsEntity | HttpException> {
     const _news = await this.newsService.findNews(idNews);
     const _user = await this.userService.findById(userId);
@@ -133,7 +133,7 @@ export class CommentsService {
       relations: ['news'],
     });
   }
-  async remove(id: number) {
+  async remove(id: string) {
     const _comment = await this.findById(id);
     this.eventEmitter.emit('comment.remove', {
       commentId: _comment.id,
@@ -147,7 +147,7 @@ export class CommentsService {
   }
 
   async updateComments(
-    id: number,
+    id: string,
     comment: CommentUpdateDto,
   ): Promise<CommentsEntity[] | boolean> {
     const oldComment = await this.findById(id);

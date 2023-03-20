@@ -8,16 +8,17 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { UsersEntity } from '../../users/users.entity';
+import { NewsEntity } from '../news.entity';
 @Entity('comments')
 export class CommentsEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column('text')
   text: string;
 
   @Column('text')
-  news: News;
+  news: NewsEntity;
 
   @ManyToOne(() => UsersEntity, (author) => author.comments)
   author: UsersEntity;

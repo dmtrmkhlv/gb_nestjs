@@ -3,7 +3,7 @@ import { NewsEntity } from '../news/news.entity';
 @Entity('categories')
 export class CategoriesEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
   @Column('text')
   name: string;
   @OneToMany(() => NewsEntity, (news) => news.category)

@@ -30,13 +30,9 @@ export class SocketCommentsGateway
     const newComment = new CommentCreateDto();
     newComment.text = message;
     // Извлекаем объект пользователя, который установлен в ws-jwt.guard.ts
-    const userId: number = client.data.user.id;
+    const userId: string = client.data.user.id;
     // Создаём комментарий
-    const _comment = await this.commentsService.create(
-      +idNews,
-      message,
-      userId,
-    );
+    const _comment = await this.commentsService.create(idNews, message, userId);
     // const _comment = await this.commentsService.create(idNews, newComment);
     // Оповещаем пользователей комнаты о новом комментарии
     this.server.to(idNews.toString()).emit('newComment', _comment);
